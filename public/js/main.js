@@ -189,6 +189,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleMouseDown(e) {
+        if (!ctx) {
+            console.error('Canvas context is null!');
+            if (editPreview.complete) initCanvas(editPreview);
+            else return;
+        }
+
         if (activeTool === 'pan' || (e.buttons === 4) || (e.code === 'Space')) {
             // Pan Mode
             isPanning = true;
@@ -444,14 +450,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.stopPropagation(); // Prevent other clicks
                 currentEditFile = file; // Set current context
                 
-                // Show modal
-                editPreview.src = file.url;
-                
                 // Init canvas once image loads
                 editPreview.onload = () => {
                     initCanvas(editPreview);
                     editModal.classList.remove('hidden');
                 };
+                editPreview.src = file.url;
+                
+                // Handle cached images
+                if (editPreview.complete && editPreview.naturalWidth > 0) {
+                    initCanvas(editPreview);
+                    editModal.classList.remove('hidden');
+                }
             });
 
             nameP.addEventListener('click', () => {
