@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 畫質修復 - 圖片增強工具</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✨ 畫質修復工具</h1>
+            <p>上傳圖片，自動提升解析度與清晰度</p>
+        </header>
+
+        <main>
+            <div class="upload-section">
+                <form id="upload-form">
+                    <div class="drop-zone" id="drop-zone">
+                        <span class="icon">📁</span>
+                        <p>點擊或拖放圖片至此 (支援多檔上傳)</p>
+                        <input type="file" name="files" id="file-input" multiple accept="image/*" hidden>
+                    </div>
+                    <button type="submit" class="btn-primary" id="upload-btn" disabled>開始修復</button>
+                </form>
+                <div id="file-list" class="file-list"></div>
+            </div>
+
+            <div id="results-section" class="results-section hidden">
+                <div class="results-header">
+                    <h2 id="results-title">修復完成</h2>
+                    <a href="/download_all" class="btn-secondary">⬇️ 下載全部 (.zip)</a>
+                </div>
+                
+                <div class="gallery" id="gallery">
+                    <!-- Results will be injected here -->
+                </div>
+            </div>
+
+            <!-- Loading Overlay -->
+            <div id="loading" class="loading-overlay hidden">
+                <div class="spinner"></div>
+                <p>正在施展魔法修復畫質中...<br>請稍候 (圖片越多需時越久)</p>
+            </div>
+            
+            <!-- Edit Modal -->
+            <div id="edit-modal" class="modal hidden">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <h2>編輯圖片參數</h2>
+                    
+                    <div class="edit-container">
+                        <div class="preview-area">
+                            <div class="canvas-wrapper">
+                                <img id="edit-preview" src="" alt="Preview">
+                                <canvas id="edit-canvas"></canvas>
+                            </div>
+                        </div>
+                        <div class="controls-area">
+                            <div class="control-group button-group">
+                                <button id="tool-brush" class="btn-secondary small active">畫筆</button>
+                                <button id="tool-eraser" class="btn-secondary small">橡皮擦</button>
+                                <button id="tool-pan" class="btn-secondary small" title="移動畫布 (或是按住空白鍵拖曳)">✋ 移動</button>
+                            </div>
+
+                            <div class="control-group brush-controls" id="brush-settings-panel">
+                                <label>顏色</label>
+                                <input type="color" id="brush-color" value="#ff0000">
+                                
+                                <label>粗細</label>
+                                <input type="range" id="brush-size" min="1" max="50" value="5">
+                                <span class="value-display" id="brush-size-val">5</span>
+                            </div>
+
+                            <div class="control-group zoom-controls">
+                                <label>縮放</label>
+                                <div class="button-group">
+                                    <button id="zoom-out" class="btn-secondary small">-</button>
+                                    <span id="zoom-level">100%</span>
+                                    <button id="zoom-in" class="btn-secondary small">+</button>
+                                    <button id="zoom-fit" class="btn-secondary small">適中</button>
+                                </div>
+                            </div>
+                            
+                            <div class="control-group button-group">
+                                <button id="brush-clear" class="btn-secondary small">清除畫布</button>
+                            </div>
+                            
+                            <div class="action-group" style="margin-top: 20px;">
+                                <button id="apply-edit-btn" class="btn-primary">套用變更</button>
+                                <p class="hint">💡 提示：畫筆將直接繪製於修復後的圖片上</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
